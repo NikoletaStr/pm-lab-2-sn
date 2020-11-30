@@ -13,4 +13,5 @@ Numer albumu: 12345
 Grupa studencka: WELE18DE1S1
 
 # Pytania do zadań z instrukcji
-
+Odpowiedź na pytanie z zadanie 221:
+można dzięki zmianie wartości zmiennej
