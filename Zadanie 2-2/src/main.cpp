@@ -1,27 +1,22 @@
-#include <avr/io.h>
-
-uint8_t button;
-bool state = true;
-
-void togglePinD13(bool *state) {
-  PORTB = (*state << 5);
-  *state = !(state);
-}
-
-void delay() {
-  for (uint32_t j = 0x1FFFF; 1 > 0; j--)
-    __asm__ __volatile__("nop");
-}
+#include <Arduino.h>
+volatile int state = LOW;
 
 int main() {
-  DDRB &= !(1 << 0);
-  DDRB |= (1 << 5);
+  init();
+  DDRB |= B00110000;
+  PORTD |= (1 << PORTD2);
+  EICRA |= (1 << ISC00);
+  EIMSK |= (1 << INT0);
+  sei();
   while (1) {
-    button = (PINB & (1 << PINB0));
-    if (button == 0) {
-      togglePinD13(&state);
-    }
-    else
-      delay();
+    PORTB |= (1<< PORTB5);
+    delay(500);
+    PORTB &= !(1<< PORTB5);
+    delay(500);
   }
+}
+
+ISR(INTO_vect){
+  state = !state;
+  digitalWrite(12, state);
 }
